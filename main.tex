@@ -3,7 +3,7 @@
 	\linespread{1.3}
 
 \usepackage{geometry} 
-	\geometry{left=2cm}
+	\geometry{left=3cm}
 	\geometry{right=1cm}
 	\geometry{top=2cm}
 	\geometry{bottom=2cm}
@@ -13,23 +13,16 @@
 \usepackage{multirow}
 
 \usepackage[english,russian]{babel}
-%\usepackage{polyglossia}
-	%\setdefaultlanguage{russian}
-	%\setotherlanguage{english}
 \usepackage{indentfirst}
 
 \usepackage{graphicx}
 	\let\ORIincludegraphics\includegraphics
-	\renewcommand{\includegraphics}[2][]{\ORIincludegraphics[scale=0.6,#1]{#2}}
-
-\usepackage{floatrow}	% image centering
-\usepackage{float}
+	%\renewcommand{\includegraphics}[2][]{\ORIincludegraphics[scale=0.7,#1]{#2}}
 
 \usepackage{fontspec}
 	\defaultfontfeatures{Scale=MatchLowercase}
 	\setmainfont[Mapping=tex-text]{Minion Pro}
 	\setmonofont{Menlo}
-	%\setmathfont{XITS Math}
 
 %\usepackage{listings}
 %	\lstset{
@@ -45,20 +38,88 @@
 
 \usepackage{tabularx,booktabs}
 
-\usepackage[justification=centering, textformat=period, figurename=Рисунок]{caption}
+\usepackage[nooneline]{caption}
+	\captionsetup{textformat=period, figurename=Рисунок}
+	\captionsetup[table]{justification=raggedright}
+	\captionsetup[figure]{justification=centering} 
 	\DeclareCaptionLabelSeparator{tier}{ --- }
 	\captionsetup{labelsep=tier}
 
+\usepackage{floatrow}
+	\floatsetup[table]{capposition=top}
+
 %\usepackage{pdflscape}
 
+\usepackage{enumitem}
+\makeatletter
+    \AddEnumerateCounter{\asbuk}{\@asbuk}{м)}
+	\makeatother
+	\setlist{nolistsep}
+	\renewcommand{\labelitemi}{--}
+	\renewcommand{\labelitemii}{--}
+	\renewcommand{\labelitemiii}{--}
+	\renewcommand{\labelenumi}{\asbuk{enumi})}
+	\renewcommand{\labelenumii}{\arabic{enumii})}
+	\renewcommand{\labelenumiii}{\asbuk{enumiii})}
+
+\usepackage{tikz}
+	\usetikzlibrary{arrows}
+
 \usepackage{titlesec}
-	\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+	\titleformat{\chapter}[display]
+	    {\filcenter}
+	    {}
+	    {8pt}
+	    {\bfseries}{}
+
+	\titleformat{\section}
+	    {\normalsize\bfseries}
+	    {\thesection}
+	    {1em}{}
+ 
+	\titleformat{\subsection}
+	    {\normalsize\bfseries}
+	    {\thesubsection}
+	    {1em}{}
+
+    \titlespacing*{\chapter}{0pt}{-30pt}{8pt}
 	\titlespacing*{\section}{\parindent}{*4}{*4}
 	\titlespacing*{\subsection}{\parindent}{*4}{*4}
 	\titlespacing*{\subsubsection}{\parindent}{*4}{*4}
+
+\usepackage{tocloft}
+	\renewcommand{\cfttoctitlefont}{\hspace{0.38\textwidth} \bfseries\MakeUppercase}
+
+\usepackage{titletoc}
+	\dottedcontents{section}[1em]{}{1em}{1pc}
+
+\addto\captionsrussian{% Replace "english" with the language you use
+  \renewcommand{\contentsname}%
+    {СОДЕРЖАНИЕ}%
+}
+
+
+\newcommand*\oline[1]{%
+  \vbox{%
+    \hrule height 0.5pt%                  % Line above with certain width
+    \kern0.25ex%                          % Distance between line and content
+    \hbox{%
+      \kern-0.1em%                        % Distance between content and left side of box, negative values for lines shorter than content
+      \ifmmode#1\else\ensuremath{#1}\fi%  % The content, typeset in dependence of mode
+      \kern-0.1em%                        % Distance between content and left side of box, negative values for lines shorter than content
+    }% end of hbox
+  }% end of vbox
+}
+
+
 \begin{document}
-	\input{title.tex}
-	\input{10body.tex}
-%	\newpage
-%	\tableofcontents
+	%\input{title.tex}
+	\setcounter{page}{2}
+	%\tableofcontents
+	%\newpage
+	%\input{introduction.tex}
+	\input{1.tex}
+
+	%\input{conclusion.tex}
+	%\input{bib.tex}
 \end{document}
