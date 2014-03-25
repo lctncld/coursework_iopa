@@ -49,7 +49,7 @@
 	\floatsetup[table]{capposition=top}
 
 %\usepackage{pdflscape}
-
+\usepackage{calc}
 \usepackage{enumitem}
 \makeatletter
     \AddEnumerateCounter{\asbuk}{\@asbuk}{м)}
@@ -111,6 +111,9 @@
   }% end of vbox
 }
 
+%\usepackage{array}
+%\newcolumntype{x}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
 
 \begin{document}
 	\input{title.tex}
@@ -118,7 +121,8 @@
 	%\tableofcontents
 	%\newpage
 	%\input{introduction.tex}
-	\input{1.tex}
+	%\input{1.tex}
+	%\input{2.tex}
 
 	%\input{conclusion.tex}
 	%\input{bib.tex}
