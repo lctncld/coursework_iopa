@@ -36,6 +36,8 @@
 	}
 \usepackage{verbatim}
 
+\usepackage[dvipsnames]{xcolor}
+
 \usepackage{tabularx,booktabs}
 
 \usepackage[nooneline]{caption}
@@ -44,6 +46,10 @@
 	\captionsetup[figure]{justification=centering} 
 	\DeclareCaptionLabelSeparator{tier}{ --- }
 	\captionsetup{labelsep=tier}
+
+\usepackage{subcaption}
+	\DeclareCaptionSubType*{figure}
+	\renewcommand{\thesubfigure}{\asbuk{subfigure}}
 
 \usepackage{floatrow}
 	\floatsetup[table]{capposition=top}
@@ -114,15 +120,18 @@
 %\usepackage{array}
 %\newcolumntype{x}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 
-
+\input{kvmacros}
 \begin{document}
-	\input{title.tex}
+	%\input{title.tex}
 	\setcounter{page}{2}
 	%\tableofcontents
 	%\newpage
 	%\input{introduction.tex}
 	%\input{1.tex}
 	%\input{2.tex}
+	
+	\input{karnaught_oa10.tex}
+	\input{karnaught_oa11.tex}
 
 	%\input{conclusion.tex}
 	%\input{bib.tex}
