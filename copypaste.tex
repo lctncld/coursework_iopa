@@ -94,10 +94,12 @@ $A$ --- слово, характеризующее состояние автом
 \begin{figure}[H]
 	\begin{subfigure}[b]{0.3\textwidth}
 		\includegraphics[scale=0.7]{images/abs10.png}
+		\caption{ОА$^{(0)}_{1}$}
 	\end{subfigure}
 	\qquad
 	\begin{subfigure}[b]{0.3\textwidth}
 		\includegraphics[scale=0.7]{images/abs11.png}
+		\caption{ОА$^{(1)}_{1}$}
 	\end{subfigure}
 	\caption{Абстрактное представление ОА1}
 	\label{figure:abs_oa1}
@@ -214,8 +216,190 @@ $f^{(0)}_{C} = 0$
 
 \subsubsection{Синтез ОА$^{(1)}_{1}$}
 
+Автомат ОА$^{(1)}_{1}$ реализует операцию $A \leftarrow A \& B$.
+
+Для упрощения задачи синтеза, декомпозируем автомат ОА$^{(1)}_{1}$ на более простые ОЭ$^{(1)}_i$ (Рисунок \ref{figure:oa11_str}). 
+
+\begin{figure}[H]
+	\includegraphics[scale=0.6]{images/oe.png}
+	\caption{Структура ОА$^{(1)}_{1}$}
+	\label{figure:oa11_str}
+\end{figure}
+
+Работа одноразрядного ОЭ$^{(1)}_i$ автомата  ОА$^{(1)}_{1}$ описывается таблицей \ref{table:oe}. Заданные таблично ПФ являются функциями двух аргументов:
+
+$J^{(1)}_i = f(a_i, b_i)$,
+
+$K^{(1)}_i = f(a_i, b_i)$,
+
+$r^{(1)}_i = f(a_i, b_i)$.
+
+Причем $a_i(t+1) = r^{(1)}_i = a_i \& b_i, i=\oline{0,3}$.
+
+\begin{table}[H]
+	\centering
+	\caption{Описание работы одноразрядного ОЭ$^{(1)}_i$ автомата ОА$^{(1)}_{1}$}
+	\label{table:oe}
+	\begin{tabular}{| c | c | c | c | c | c |} \hline
+		$a_i(t)$ & $b_i(t)$ & $a_i(t+1)$ & $r^{(1)}_i$ & $J^{(1)}_i$ & $K^{(1)}_i$ \\ \hline
+		0 & 0 & 	0 & 	0 & 	0 & x \\ \hline
+		0 & 1 & 	0 & 	0 & 	0 & x \\ \hline
+		1 & 0 & 	0 & 	0 & 	x & 1 \\ \hline
+		1 & 1 & 	1 & 	1 & 	x & 0 \\ \hline
+	\end{tabular}
+\end{table}
+
+Особенностью поразрядного синтеза ОА$^{(1)}_{1}$ является отсутствие информации о состоянии регистра А в целом в момент времени $t$, поэтому ЛФП формируется на основе вспомогательной функции $R$, подаваемой с выходов ОЭ$^{(1)}_i$  (рисунок 4) на входы вспомогательной комбинационной схемы КС$_{(1)}$.
+
+Таблица \ref{table:oa11tab} описывает логику работы КС$_{(1)}$, формирующей сигналы $f^{(1)}_{S}$, $f^{(1)}_{Z}$, $f^{(1)}_{C'}$, $f^{(1)}_{P}$, $f^{(1)}_{C}$. Переключательные функции являются функциями четырех аргументов.
+
+\begin{table}[H]
+	\centering
+	\caption{Описание принципа установки флагов автомата ОА$^{(1)}_{1}$}
+	\label{table:oa11tab}
+	\begin{tabular}{|c|*{10}{c|}{r|}} \hline
+		\multirow{2}{0.5cm}{N}
+		& \multicolumn{4}{p{2cm}|}{$R$}
+		& \multicolumn{5}{c|}{ЛФП} \\ \cline{2-10}
+
+		& $r_3$ & $r_2$ & $r_1$ & $r_0$
+		& $f^{(1)}_{S}$ & $f^{(1)}_{Z}$ & $f^{(1)}_{P}$ & $f^{(1)}_{C'}$ & $f^{(1)}_{C}$ \\  \hline
+
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 \\ \hline
+1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\ \hline
+2 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+3 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 0 \\ \hline
+4 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+5 & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 0 \\ \hline
+6 & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 0 \\ \hline
+7 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\ \hline
+8 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ \hline
+9 & 1 & 0 & 0 & 1 & 1 & 0 & 1 & 0 & 0 \\ \hline
+10 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\ \hline
+11 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\ \hline
+12 & 1 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 \\ \hline
+13 & 1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 \\ \hline
+14 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\ \hline
+15 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0 \\ \hline
+
+	\end{tabular}
+\end{table}
+
+Функции возбуждения JK-триггеров и функции выходов формируются на основании таблиц \ref{table:oe} и \ref{table:oa11tab}.
+
+$J^1_3 = f(a_3, b_3) = 0$
+
+$K^1_3 = f(a_3, b_3) = a_3 \cdot \oline{b_3}$
+
+$J^1_2 = f(a_3, b_3) = 0$
+
+$K^1_2 = f(a_3, b_3) = a_3 \cdot \oline{b_2}$
+
+$J^1_1 = f(a_3, b_3) = 0$
+
+$K^1_1 = f(a_3, b_3) = a_3 \cdot \oline{b_1}$
+
+$J^1_0 = f(a_3, b_3) = 0$
+
+$K^1_0 = f(a_3, b_3) = a_3 \cdot \oline{b_0}$
+
+
+$f^{(1)}_{S} = f(r_3, r_2, r_1, r_0) = K^4_8 \vee K^4_9 \vee K^4_10 \vee K^4_11 \vee K^4_12 \vee K^4_13 \vee K^4_14 \vee K^4_15$
+
+$f^{(1)}_{Z} = f(r_3, r_2, r_1, r_0) = K^4_0$
+
+$f^{(1)}_{P} = f(r_3, r_2, r_1, r_0) = K^4_0 \vee K^4_3 \vee K^4_5 \vee K^4_6 \vee K^4_9 \vee K^4_10 \vee K^4_12 \vee K^4_15$
+
+$f^{(1)}_{C'}= 0$
+
+$f^{(1)}_{C} = 0$
+
+Полученные ПФ заносим на карты Карно (Рисунок \ref{figure:oa11_min_trig}, \ref{figure:oa11_min_flag}.
+
 \input{karnaught_oa11.tex}
+
+После минимизации переключательные функции будут иметь вид:
+
+$K^1_3 = f(a_3, b_3) = \oline{b_3}$
+
+$J^1_2 = f(a_3, b_3) = 0$
+
+$K^1_2 = f(a_3, b_3) = \oline{b_2}$
+
+$J^1_1 = f(a_3, b_3) = 0$
+
+$K^1_1 = f(a_3, b_3) = \oline{b_1}$
+
+$J^1_0 = f(a_3, b_3) = 0$
+
+$K^1_0 = f(a_3, b_3) = \oline{b_0}$
+
+$f^{(1)}_{S} = r_3$
+
+$f^{(1)}_{Z} = \oline{r_3} \cdot \oline{r_2} \cdot \oline{r_1} \cdot \oline{r_0}$
+
+$f^{(1)}_{P} = \oline{r_3 \oplus r_2 \oplus r_1 \oplus r_0}$
+
+$f^{(1)}_{C'}= 0$
+
+$f^{(1)}_{C} = 0$
+
 
 \subsubsection{Объединенные ФВ И ЛФП ОА${}_1$}
 
+В текущий момент такой автомат может выполнять только одну из заданных операций и состояния его меняются в соответствии с логикой реализуемой операции.
+
+На основании составленных ФВ и ЛФП автоматов ОА$^{(0)}_{1}$ и ОА$^{(1)}_{1}$ составим объединенные ФВ и ЛФП:
+
+$J_3 = y_0 J^0_3 \cup y_1 J^1_3 = y_0 (\oline{a_2}) \vee y_1(0)$
+
+$K_3 = y_0 K^0_3 \cup y_1 K^1_3 = y_0 (\oline{a_2} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1(\oline{b_3})$
+
+$J_2 = y_0 J^0_2 \cup y_1 J^1_2 = y_0 (\oline{a_3} \vee \oline{a_1} \cdot \oline{a_0}) \vee y_1(0)$
+
+$K_2 = y_0 K^0_2 \cup y_1 K^1_2 = y_0 (\oline{a_1} \cdot \oline{a_0}) \vee y_1(\oline{b_2})$
+
+$J_1 = y_0 J^0_1 \cup y_1 J^1_1 = y_0 (\oline{a_0}) \vee y_1(0)$
+
+$K_1 = y_0 K^0_1 \cup y_1 K^1_1 = y_0 (\oline{a_0} \vee \oline{a_3} \cdot \oline{a_2}) \vee y_1(\oline{b_1})$
+
+$J_0 = y_0 J^0_0 \cup y_1 J^1_0 = y_0 (1) \vee y_1(0)$
+
+$K_0 = y_0 K^0_0 \cup y_1 K^1_0 = y_0 (1) \vee y_1(\oline{b_0})$
+
+$f_S = y_0 f^0_S \cup y_1 f^1_S = y_0 (a_3 \cdot a_2 \vee \oline{a_2} \cdot a_1 \vee a_3 \cdot a_0) \vee y_1 (r_3)$
+
+$f_Z = y_0 f^0_S \cup y_1 f^1_S = y_0 (\oline{a_3} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1 (\oline{r_3} \cdot \oline{r_2} \cdot \oline{r_1} \cdot \oline{r_0})$
+
+$f_{C'} = y_0 f^0_S \cup y_1 f^1_S = y_0 (\oline{a_1} \cdot \oline{a_0}) \vee y_1 (0)$
+
+$f_P = y_0 f^0_S \cup y_1 f^1_S = y_0 (a_1 \vee \oline{a_3} \cdot \oline{a_0}) \vee y_1 (\oline{r_3 \oplus r_2 \oplus r_1 \oplus r_0})$
+
+$f_C = y_0 f^0_S \cup y_1 f^1_S = y_0 (0) \vee y_1 (0)$
+
+
+
+\clearpage
 \subsection{Синтез ОА${}_2$}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
