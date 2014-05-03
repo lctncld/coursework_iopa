@@ -76,7 +76,7 @@ $A$ --- слово, характеризующее состояние автом
 
 Арифметико-логический автомат ОА$_1$ формирует слово результата операции $А$ и сигналы $f_S$, $f_Z$, $f_C'$, $f_P$, $f_C$ --- логические функции признаков (ЛФП), относящиеся к выходным сигналам $Y=\lambda(X, A)$, на основе которых ОА$_2$ формирует уже сами признаки --- слово $F = (S, Z, P, C, C')$ в соответствии с логикой признаков, которая задается таблично (Таблица \ref{table:task}) для каждой отдельной операции.
 
-Операции, реализуемые ОА (Рисунок \ref{figure:decomp}), инициализируются управляющими сигналами $yi$. В данной работе используется только один управляющий сигнал $y$. Если этот сигнал принимает значение $0$, то выполняется арифметическая операция, иначе --- логическая.
+Операции, реализуемые ОА (Рисунок \ref{figure:decomp}), инициализируются управляющими сигналами $y_i$. В данной работе используется только один управляющий сигнал $y$. Если этот сигнал принимает значение $0$, то выполняется арифметическая операция, иначе --- логическая.
 
 \subsection{Синтез ОА${}_1$}
 
@@ -160,11 +160,11 @@ $A$ --- слово, характеризующее состояние автом
 
 Признаки:
 \begin{itemize}
-	\item fS --- фиксирует знаковый бит результата,
-	\item fZ --- фиксирует нулевой результат,
-	\item fP --- фиксирует четное число единиц результата,
-	\item fC --- фиксирует перенос (заем) из старшего бита результата,
-	\item fC’---  фиксирует вспомогательный перенос (заем) из бита $а_2$ результата.
+	\item $f_S$ --- фиксирует знаковый бит результата,
+	\item $f_Z$ --- фиксирует нулевой результат,
+	\item $f_P$ --- фиксирует четное число единиц результата,
+	\item $f_C$ --- фиксирует перенос (заем) из старшего бита результата,
+	\item $f_{C'}$---  фиксирует вспомогательный перенос (заем) из бита $а_2$ результата.
 \end{itemize}
 
 \begin{table}[H]
@@ -185,33 +185,41 @@ $A$ --- слово, характеризующее состояние автом
 
 \input{karnaught_oa10.tex}
 
-В результате минимизации получается система ПФ, представленных в МДНФ:
+В результате минимизации получается система ФВ (2) и ЛФП (3), представленных в МДНФ:
 
-$J^{(0)}_{3} = \oline{a_2}$
+$
+\begin{cases}
+J^{(0)}_{3} = \oline{a_2}
+\\
+K^{(0)}_{3} = \oline{a_2} \cdot \oline{a_1} \cdot \oline{a_0}
+\\
+J^{(0)}_{2} = \oline{a_3} \vee \oline{a_1} \cdot \oline{a_0}
+\\
+K^{(0)}_{2} = \oline{a_1} \cdot \oline{a_0}
+\\
+J^{(0)}_{1} = \oline{a_0}
+\\
+K^{(0)}_{1} = \oline{a_0} \vee \oline{a_3} \cdot \oline{a_2}
+\\
+J^{(0)}_{0} = 1
+\\
+K^{(0)}_{0} = 1
+\end{cases}
+$ (2)
 
-$K^{(0)}_{3} = \oline{a_2} \cdot \oline{a_1} \cdot \oline{a_0}$
-
-$J^{(0)}_{2} = \oline{a_3} \vee \oline{a_1} \cdot \oline{a_0}$
-
-$K^{(0)}_{2} = \oline{a_1} \cdot \oline{a_0}$
-
-$J^{(0)}_{1} = \oline{a_0}$
-
-$K^{(0)}_{1} = \oline{a_0} \vee \oline{a_3} \cdot \oline{a_2}$
-
-$J^{(0)}_{0} = 1$
-
-$K^{(0)}_{0} = 1$
-
-$f^{(0)}_{S} = a_3 \cdot a_2 \vee \oline{a_2} \cdot a_1 \vee a_3 \cdot a_0 $
-
-$f^{(0)}_{Z} = \oline{a_3} \cdot \oline{a_1} \cdot \oline{a_0}$
-
-$f^{(0)}_{C'} = \oline{a_1} \cdot \oline{a_0}$
-
-$f^{(0)}_{P} = a_1 \vee \oline{a_3} \cdot \oline{a_0}$
-
-$f^{(0)}_{C} = 0$
+$
+\begin{cases}
+f^{(0)}_{S} = a_3 \cdot a_2 \vee \oline{a_2} \cdot a_1 \vee a_3 \cdot a_0
+\\
+f^{(0)}_{Z} = \oline{a_3} \cdot \oline{a_1} \cdot \oline{a_0}
+\\
+f^{(0)}_{C'} = \oline{a_1} \cdot \oline{a_0}
+\\
+f^{(0)}_{P} = a_1 \vee \oline{a_3} \cdot \oline{a_0}
+\\
+f^{(0)}_{C} = 0
+\end{cases}
+$ (3)
 
 
 \subsubsection{Синтез ОА$^{(1)}_{1}$}
@@ -285,121 +293,208 @@ $r^{(1)}_i = f(a_i, b_i)$.
 	\end{tabular}
 \end{table}
 
-Функции возбуждения JK-триггеров и функции выходов формируются на основании таблиц \ref{table:oe} и \ref{table:oa11tab}.
+Функции возбуждения JK-триггеров (4) и функции выходов (5) формируются на основании таблиц \ref{table:oe} и \ref{table:oa11tab}.
 
-$J^1_3 = f(a_3, b_3) = 0$
+$
+\begin{cases}
+J^1_3 = f(a_3, b_3) = 0
+\\
+K^1_3 = f(a_3, b_3) = a_3 \cdot \oline{b_3}
+\\
+J^1_2 = f(a_3, b_3) = 0
+\\
+K^1_2 = f(a_3, b_3) = a_3 \cdot \oline{b_2}
+\\
+J^1_1 = f(a_3, b_3) = 0
+\\
+K^1_1 = f(a_3, b_3) = a_3 \cdot \oline{b_1}
+\\
+J^1_0 = f(a_3, b_3) = 0
+\\
+K^1_0 = f(a_3, b_3) = a_3 \cdot \oline{b_0}
+\end{cases}
+$ (4)
 
-$K^1_3 = f(a_3, b_3) = a_3 \cdot \oline{b_3}$
 
-$J^1_2 = f(a_3, b_3) = 0$
-
-$K^1_2 = f(a_3, b_3) = a_3 \cdot \oline{b_2}$
-
-$J^1_1 = f(a_3, b_3) = 0$
-
-$K^1_1 = f(a_3, b_3) = a_3 \cdot \oline{b_1}$
-
-$J^1_0 = f(a_3, b_3) = 0$
-
-$K^1_0 = f(a_3, b_3) = a_3 \cdot \oline{b_0}$
-
-
-$f^{(1)}_{S} = f(r_3, r_2, r_1, r_0) = K^4_8 \vee K^4_9 \vee K^4_10 \vee K^4_11 \vee K^4_12 \vee K^4_13 \vee K^4_14 \vee K^4_15$
-
-$f^{(1)}_{Z} = f(r_3, r_2, r_1, r_0) = K^4_0$
-
-$f^{(1)}_{P} = f(r_3, r_2, r_1, r_0) = K^4_0 \vee K^4_3 \vee K^4_5 \vee K^4_6 \vee K^4_9 \vee K^4_10 \vee K^4_12 \vee K^4_15$
-
-$f^{(1)}_{C'}= 0$
-
-$f^{(1)}_{C} = 0$
+$
+\begin{cases}
+f^{(1)}_{S} = f(r_3, r_2, r_1, r_0) = K^4_8 \vee K^4_9 \vee K^4_10 \vee K^4_11 \vee K^4_12 \vee K^4_13 \vee K^4_14 \vee K^4_15
+\\
+f^{(1)}_{Z} = f(r_3, r_2, r_1, r_0) = K^4_0
+\\
+f^{(1)}_{P} = f(r_3, r_2, r_1, r_0) = K^4_0 \vee K^4_3 \vee K^4_5 \vee K^4_6 \vee K^4_9 \vee K^4_10 \vee K^4_12 \vee K^4_15
+\\
+f^{(1)}_{C'}= 0
+\\
+f^{(1)}_{C} = 0
+\end{cases}
+$ (5)
 
 Полученные ПФ заносим на карты Карно (Рисунок \ref{figure:oa11_min_trig}, \ref{figure:oa11_min_flag}.
 
 \input{karnaught_oa11.tex}
 
-После минимизации переключательные функции будут иметь вид:
+После минимизации ФВ (6) и ЛФП (7) будут иметь вид:
 
-$K^1_3 = f(a_3, b_3) = \oline{b_3}$
+$
+\begin{cases}
+K^1_3 = f(a_3, b_3) = \oline{b_3}
+\\
+J^1_2 = f(a_3, b_3) = 0
+\\
+K^1_2 = f(a_3, b_3) = \oline{b_2}
+\\
+J^1_1 = f(a_3, b_3) = 0
+\\
+K^1_1 = f(a_3, b_3) = \oline{b_1}
+\\
+J^1_0 = f(a_3, b_3) = 0
+\\
+K^1_0 = f(a_3, b_3) = \oline{b_0}
+\end{cases}
+$ (6)
 
-$J^1_2 = f(a_3, b_3) = 0$
-
-$K^1_2 = f(a_3, b_3) = \oline{b_2}$
-
-$J^1_1 = f(a_3, b_3) = 0$
-
-$K^1_1 = f(a_3, b_3) = \oline{b_1}$
-
-$J^1_0 = f(a_3, b_3) = 0$
-
-$K^1_0 = f(a_3, b_3) = \oline{b_0}$
-
-$f^{(1)}_{S} = r_3$
-
-$f^{(1)}_{Z} = \oline{r_3} \cdot \oline{r_2} \cdot \oline{r_1} \cdot \oline{r_0}$
-
-$f^{(1)}_{P} = \oline{r_3 \oplus r_2 \oplus r_1 \oplus r_0}$
-
-$f^{(1)}_{C'}= 0$
-
-$f^{(1)}_{C} = 0$
+$
+\begin{cases}
+f^{(1)}_{S} = r_3
+\\
+f^{(1)}_{Z} = \oline{r_3} \cdot \oline{r_2} \cdot \oline{r_1} \cdot \oline{r_0}
+\\
+f^{(1)}_{P} = \oline{r_3 \oplus r_2 \oplus r_1 \oplus r_0}
+\\
+f^{(1)}_{C'}= 0
+\\
+f^{(1)}_{C} = 0
+\end{cases}
+$ (7)
 
 
 \subsubsection{Объединенные ФВ И ЛФП ОА${}_1$}
 
 В текущий момент такой автомат может выполнять только одну из заданных операций и состояния его меняются в соответствии с логикой реализуемой операции.
 
-На основании составленных ФВ и ЛФП автоматов ОА$^{(0)}_{1}$ и ОА$^{(1)}_{1}$ составим объединенные ФВ и ЛФП:
+На основании составленных ФВ и ЛФП автоматов ОА$^{(0)}_{1}$ и ОА$^{(1)}_{1}$ составим объединенные ФВ (8) и ЛФП (9):
 
-$J_3 = y_0 J^0_3 \cup y_1 J^1_3 = y_0 (\oline{a_2}) \vee y_1(0)$
+$
+\begin{cases}
+J_3 = y_0 J^0_3 \cup y_1 J^1_3 = y_0 (\oline{a_2}) \vee y_1(0)
+\\
+K_3 = y_0 K^0_3 \cup y_1 K^1_3 = y_0 (\oline{a_2} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1(\oline{b_3})
+\\
+J_2 = y_0 J^0_2 \cup y_1 J^1_2 = y_0 (\oline{a_3} \vee \oline{a_1} \cdot \oline{a_0}) \vee y_1(0)
+\\
+K_2 = y_0 K^0_2 \cup y_1 K^1_2 = y_0 (\oline{a_1} \cdot \oline{a_0}) \vee y_1(\oline{b_2})
+\\
+J_1 = y_0 J^0_1 \cup y_1 J^1_1 = y_0 (\oline{a_0}) \vee y_1(0)
+\\
+K_1 = y_0 K^0_1 \cup y_1 K^1_1 = y_0 (\oline{a_0} \vee \oline{a_3} \cdot \oline{a_2}) \vee y_1(\oline{b_1})
+\\
+J_0 = y_0 J^0_0 \cup y_1 J^1_0 = y_0 (1) \vee y_1(0)
+\\
+K_0 = y_0 K^0_0 \cup y_1 K^1_0 = y_0 (1) \vee y_1(\oline{b_0})
+\end{cases}
+$ (8)
 
-$K_3 = y_0 K^0_3 \cup y_1 K^1_3 = y_0 (\oline{a_2} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1(\oline{b_3})$
-
-$J_2 = y_0 J^0_2 \cup y_1 J^1_2 = y_0 (\oline{a_3} \vee \oline{a_1} \cdot \oline{a_0}) \vee y_1(0)$
-
-$K_2 = y_0 K^0_2 \cup y_1 K^1_2 = y_0 (\oline{a_1} \cdot \oline{a_0}) \vee y_1(\oline{b_2})$
-
-$J_1 = y_0 J^0_1 \cup y_1 J^1_1 = y_0 (\oline{a_0}) \vee y_1(0)$
-
-$K_1 = y_0 K^0_1 \cup y_1 K^1_1 = y_0 (\oline{a_0} \vee \oline{a_3} \cdot \oline{a_2}) \vee y_1(\oline{b_1})$
-
-$J_0 = y_0 J^0_0 \cup y_1 J^1_0 = y_0 (1) \vee y_1(0)$
-
-$K_0 = y_0 K^0_0 \cup y_1 K^1_0 = y_0 (1) \vee y_1(\oline{b_0})$
-
-$f_S = y_0 f^0_S \cup y_1 f^1_S = y_0 (a_3 \cdot a_2 \vee \oline{a_2} \cdot a_1 \vee a_3 \cdot a_0) \vee y_1 (r_3)$
-
-$f_Z = y_0 f^0_S \cup y_1 f^1_S = y_0 (\oline{a_3} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1 (\oline{r_3} \cdot \oline{r_2} \cdot \oline{r_1} \cdot \oline{r_0})$
-
-$f_{C'} = y_0 f^0_S \cup y_1 f^1_S = y_0 (\oline{a_1} \cdot \oline{a_0}) \vee y_1 (0)$
-
-$f_P = y_0 f^0_S \cup y_1 f^1_S = y_0 (a_1 \vee \oline{a_3} \cdot \oline{a_0}) \vee y_1 (\oline{r_3 \oplus r_2 \oplus r_1 \oplus r_0})$
-
-$f_C = y_0 f^0_S \cup y_1 f^1_S = y_0 (0) \vee y_1 (0)$
+$
+\begin{cases}
+f_S = y_0 f^0_S \cup y_1 f^1_S = y_0 (a_3 \cdot a_2 \vee \oline{a_2} \cdot a_1 \vee a_3 \cdot a_0) \vee y_1 (r_3)
+\\
+f_Z = y_0 f^0_Z \cup y_1 f^1_Z = y_0 (\oline{a_3} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1 (\oline{r_3} \cdot \oline{r_2} \cdot \oline{r_1} \cdot \oline{r_0})
+\\
+f_{C'} = y_0 f^0_{C'} \cup y_1 f^1_{C'} = y_0 (\oline{a_1} \cdot \oline{a_0}) \vee y_1 (0)
+\\
+f_P = y_0 f^0_P \cup y_1 f^1_P = y_0 (a_1 \vee \oline{a_3} \cdot \oline{a_0}) \vee y_1 (\oline{r_3 \oplus r_2 \oplus r_1 \oplus r_0})
+\\
+f_C = y_0 f^0_C \cup y_1 f^1_C = y_0 (0) \vee y_1 (0)
+\end{cases}
+$ (9)
 
 
 
 \clearpage
 \subsection{Синтез ОА${}_2$}
 
+ Автомат ОА2 представляется в виде двух частей --- памяти для хранения признаков $S$, $Z$, $C'$, $P$, $C$ (триггеры $T_S$, $T_Z$, $T_{C'}$, $T_P$, $T_C$) и КС$_2$, реализующей логику установки признаков для заданного набора операций. Входными сигналами для ОА$_2$ являются осведомительные сигналы $f_s$, $f_z$, $f_{c'}$, $f_p$, $f_c$ (ЛФП), полученные с выхода ОА$_{1}$, а также сигнал синхронизации $q$.
 
+Через $G$ обозначен один из признаков $S$, $Z$, $P$, $C'$, $C$  (Рисунок \ref{figure:oa2}).
 
+\begin{figure}[H]
+	\includegraphics[scale=0.6]{images/oa2.png}
+	\caption{Автомат для установки признака G}
+	\label{figure:oa2}
+\end{figure}
 
+Поскольку признаки $S$, $Z$, $P$, $C'$, $C$ являются независимыми, можно формировать одну таблицу переходов и ФВ для обобщенного признака $G \in \{S, Z, C', P ,C\}$ (Таблица \ref{table:wowmuchlinkswow}). 
 
+Таблица \ref{table:wowmuchlinkswow} делится по строкам на две части. В первой описывается формирование признака $G$ в случае, когда он устанавливается $(*, 0 ,1)$, во второй --- когда не устанавливается ($-$). Следующее состояние $G^*$ триггера признака $T_G$ определяется функциями переходов:
+\begin{enumerate}
+	\item $G \leftarrow f_G$, если признак устанавливается,
+	\item $G \leftarrow G$, если признак не устанавливается.
+\end{enumerate}
 
+Сигналы функций возбуждения $D_G$ формируются в соответствии со значением переходов $G^* \leftarrow G$ и матрицей переходов D–триггера (Таблица \ref{table:D_SMW}).
 
+\begin{table}[H]
+	\centering
+	\caption{Матрица переходов D-триггера}
+	\label{table:D_SMW}
+	\begin{tabular}{| l | c |} \hline
+		Переход & D\\ \hline
+		$0 \rightarrow 0$ & 	$0$ \\ \hline
+		$0 \rightarrow 1$ & 	$1$\\ \hline
+		$1 \rightarrow 0$ & 	$0$ \\ \hline
+		$1 \rightarrow 1$ & 	$1$ \\ \hline
+	\end{tabular}
+\end{table}
 
+\begin{table}[H]
+	\centering
+	\caption{Таблица переходов и ФВ для признака G}
+	\label{table:wowmuchlinkswow}
+	\begin{tabular}{| p{2.5cm} | p{2cm} | p{2cm} | p{2cm} | c | p{2.5cm} |} \hline
+		\multirow{2}{2cm}{Логика установки признака}
+		& Входной сигнал 
+		& Текущее состояние $T_G$
+		& Следующее состояние $T_G$
+		& ФВ
+		& \multirow{2}{2cm}{Примечание} \\ \cline{2-5}
 
+		& $f_G$ & $G$ & $G^*$ & $D_G$ & \\ \hline
 
+	   \multirow{4}{2cm}{устанавли-вается} & 0 & 0 & 0 & 0 & \multirow{4}{2cm}{$D_G = f_G$} \\
+										   & 0 & 1 & 0 & 0 & \\
+										   & 1 & 0 & 1 & 1 & \\
+										   & 1 & 1 & 1 & 1 & \\ \hline 
+	\multirow{4}{2cm}{не устанавл-ивается} & 0 & 0 & 0 & 0 & \multirow{4}{2cm}{$D_G = G$} \\
+										   & 0 & 1 & 1 & 1 & \\
+										   & 1 & 0 & 0 & 0 & \\
+										   & 1 & 1 & 1 & 1 & \\ \hline 
+	\end{tabular}
+\end{table}
 
+Подставляя в $D_G$ вместо $G$ конкретные признаки, получают функции возбуждения триггеров признаков $D_S$, $D_Z$, $D_C'$ $D_P$, $D_C$.
 
+\begin{table}[H]
+	\centering
+	\caption{Объединенные ФВ ОА$_2$}
+	\label{table:fvoa2}
+	\begin{tabular}{|l|*{11}{c|}{r|}} \hline
+		\multirow{2}{*}{Операция} & \multicolumn{5}{c|}{Признаки} & \multicolumn{5}{c|}{ФВ} \\ \cline{2-11}
+		& $S$ & $Z$ & $C'$ & $P$ & $C$ & $D_S$ & $D_Z$ & $D_{C'}$ & $D_P$ & $D_C$ \\ \hline
+		
+		$A \leftarrow A - 1$ & $+$ & $+$ & $+$ & $+$ & $-$ & $f_s$ & $f_z$ & $f_{c'}$ & $f_p$ & $C$ \\ \hline 
+		$A \leftarrow A \& B$ & $+$ & $+$ & $0$ & $+$ & $0$ & $f_s$ & $f_z$ & $f_{c'}$ & $f_p$ & $f_c$ \\ \hline 
+	\end{tabular}
+\end{table}
 
+В соответствии с таблицей \ref{table:fvoa2} сформируем объединенные ФВ для каждого триггера признака:
 
+$D_s = y_0 f_s \cup y_1 f_s$
 
+$D_z = y_0 f_z \cup y_1 f_z$
 
+$D_{c'} = y_0 f_{c'} \cup y_1 f_{c'}$
 
+$D_p = y_0 f_p \cup y_1 f_p$
 
-
-
-
-
+$D_c = y_0 C \cup y_1 f_c$
