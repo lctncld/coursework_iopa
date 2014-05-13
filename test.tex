@@ -7,44 +7,85 @@
 
 \subsection{Реализация ОА${}_1$}
 
-\begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/oa10_logic.png}
-	\caption{Схема ОА$^{(0)}_{1}$}
-	\label{figure:oa10log}
-\end{figure}
+Схема построена в соответствии с объединёнными функциями возбуждения и ЛФП, полученными в пункте 3.1.3.
+
+Входными сигналами для ОА${}_1$ являются:
+\begin{itemize}
+	\item сигнал управления \texttt{Y}, который реализован таким образом, что:
+		\begin{itemize}
+			\item Y = 1, Y0 = 1. ОА реализует арифметическую операцию, 
+			\item Y = 0, Y1 = 1. ОА реализует логическую операцию.
+		\end{itemize}
+	\item операнд \texttt{B} для логической операции,
+	\item сигнал синхронизации \texttt{Q},
+	\item сигнал \texttt{LDA} для принудительной установки триггеров в заданное состояние,
+	\item сигнал \texttt{SETN} разрешения принудительной установки триггеров в заданное состояние.
+\end{itemize}
+
+Выходными сигналами для ОА${}_1$ являются:
+\begin{itemize}
+	\item новое состояние автомата \texttt{A},
+	\item ЛФП \texttt{FS}, \texttt{FZ}, \texttt{FC1}, \texttt{FP}, \texttt{FC}.
+\end{itemize}
+
+Поскольку после включения питания все триггеры будут находиться в нулевом состоянии, использована схема принудительной установки состояния автомата в заданное.
+
+Для выполнения различных операция используется одна и та же память, то есть одни и те же триггеры, возбуждаемые различными функциями. Поэтому схемы формирования функций возбуждения и ЛФП представлены в виде отдельных символов oa10\textunderscore logic и oa11\textunderscore logic для ОА$^{(0)}_{1}$ и ОА$^{(1)}_{1}$ соответственно.
+
+Так как используются две схемы формирования функций возбуждения и ЛФП, то реализована схема, позволяющая подключить выходы одной из них к входам триггеров и ЛФП в зависимости от кода операции \texttt{Y}.
 
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/oa11_logic.png}
-	\caption{Схема ОА$^{(1)}_{1}$}
-	\label{figure:oa11log}
-\end{figure}
-
-\begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/oa1_1_WITH_CONTROL_SIGNAL.png}
+	\includegraphics[scale=0.6]{images/altera/rev2/oa1_1_WITH_CONTROL_SIGNAL.png}
 	\caption{Cхема ОА$_{1}$ (начало)}
 	\label{figure:oa1-1log}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/oa1_2.png}
+	\includegraphics[scale=0.6]{images/altera/rev2/oa1_2.png}
 	\caption{Cхема ОА$_{1}$ (окончание)}
 	\label{figure:oa1-2log}
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[scale=0.6]{images/altera/rev2/oa10_logic.png}
+	\caption{Схема формирования функций возбуждения ОА$^{(0)}_{1}$}
+	\label{figure:oa10log}
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[scale=0.6]{images/altera/rev2/oa11_logic.png}
+	\caption{Схема формирования функций возбуждения ОА$^{(1)}_{1}$}
+	\label{figure:oa11log}
 \end{figure}
 
 
 \clearpage
 \subsection{Реализация ОА${}_2$}
 
+Схема построена в соответствии с объединёнными функциями возбуждения для каждого признака, полученными в пункте 3.2.
+
+Входными сигналами для ОА${}_2$ являются:
+\begin{itemize}
+	\item осведомительные сигналы \texttt{FS}, \texttt{FZ}, \texttt{FC1}, \texttt{FP}, \texttt{FC},
+	\item сигнал синхронизации \texttt{Q},
+	\item сигнал управления \texttt{Y}.
+\end{itemize}
+
+Выходными сигналами для ОА${}_2$ являются флаги \texttt{S}, \texttt{Z}, \texttt{C1}, \texttt{P}, \texttt{C}.
+
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/oa2_WITH_CONTROL_SIGNAL.png}
+	\includegraphics[scale=0.6]{images/altera/rev2/oa2_WITH_CONTROL_SIGNAL.png}
 	\caption{Cхема ОА$_{2}$}
 	\label{figure:oa2log}
 \end{figure}
 
+\clearpage
 \subsection{Реализация ОА}
 
+Схема операционного автомата (Рисунок \ref{figure:oalog}) представлена в виде совокупности схем ОА${}_1$ и ОА${}_2$, представленных в виде символов.
+
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/oa_WITH_CONTROL_SIGNAL.png}
+	\includegraphics[scale=0.6]{images/altera/rev2/oa_WITH_CONTROL_SIGNAL.png}
 	\caption{Cхема ОА}
 	\label{figure:oalog}
 \end{figure}
@@ -63,30 +104,6 @@
 
 \subsection{Моделирование ОА$_1$}
 
-Описание сигналов:
-\begin{itemize}	
-	\item CLK --- импульс тактовой частоты,
-	
-	\item LDA ---  шина установки состояния автомата,
-	
-	\item SETN --- сигнал, переводящий автомат в состояние с шины LDA,
-	
-	\item Y --- сигнал, определяющий выполняемую операцию,
-	
-	\item A --- состояние автомата,
-	
-	\item FS --- признак знака,
-	
-	\item FZ --- признак нуля,
-	
-	\item FP --- признак паритета,
-	
-	\item FC --- признак переноса,
-	
-	\item FC1 --- признак вспомогательного переноса.
-\end{itemize}
-
-
 \subsubsection{Моделирование арифметической операции}
 
 На вход ОА1 подаются следующие сигналы:
@@ -94,7 +111,7 @@
 	\item сигнал кода операции \texttt{Y = 1},
 	\item сигнал \texttt{LDA = 0011}$_2$, соответствующий числу 3h (первому разрешенному состоянию),
 	\item импульс \texttt{SETN}, соответствующий переходу автомата в состояние с шины \texttt{LDA},
-	\item импульсы тактовой частоты \texttt{CLK}.
+	\item импульсы тактовой частоты \texttt{Q}.
 \end{itemize}
  
 Корректной работе автомата соответствуют значения на выходах, приведенные в таблице \ref{table:oa10test}.
@@ -108,7 +125,7 @@
 	\label{table:oa10test}
 	\begin{tabular}{|l|*{7}{c|}{r|}} \hline
 		A(t) & A(t+1) & FS & FZ & FC1 & FP & FC \\ \hline
-		0011 & 1100 & 1 & 0 & 0 & 1 & 0 \\ \hline
+		0011 & 1100 & 1 & 0 & 0 & 1 & 1 \\ \hline
 		1100 & 1011 & 1 & 0 & 1 & 0 & 0 \\ \hline
 		1011 & 1010 & 1 & 0 & 0 & 1 & 0 \\ \hline
 		1010 & 1001 & 1 & 0 & 0 & 1 & 0 \\ \hline
@@ -122,12 +139,12 @@
 \end{table}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/test10.png}
+	\includegraphics[scale=0.6]{images/altera/rev2/test10.png}
 	\caption{Временная диаграмма результатов моделирования операции $A \leftarrow A - 1$}
 	\label{figure:oa10test}
 \end{figure}
 
-Автомат циклически выполняет заданную операцию $A \leftarrow A - 1$ в коде в десятичной системе счисления в коде с избытком 3, вырабатывая сигналы от 3h до Ch в шестнадцатеричной системе счисления. Признаки устанавливаются в соответствии с таблицей \ref{table:oa10test}. То есть автомат функционирует в соответствии с заданием.
+Автомат циклически выполняет заданную операцию $A \leftarrow A - 1$ в коде с избытком 3, вырабатывая сигналы от 3h до Ch в шестнадцатеричной системе счисления. Признаки устанавливаются в соответствии с таблицей \ref{table:oa10test}. То есть автомат функционирует в соответствии с заданием.
 
 \clearpage
 \subsubsection{Моделирование логической операции}
@@ -135,10 +152,10 @@
 На вход ОА1 подаются следующие сигналы:
 \begin{itemize}
 	\item сигнал кода операции \texttt{Y = 0},
-	\item сигналы \texttt{LDA}, соответствующие установке состояния),
+	\item сигналы \texttt{LDA}, соответствующие установке состояния,
 	\item импульс \texttt{SETN}, соответствующий переходу автомата в состояние с шины \texttt{LDA},
 	\item сигналы \texttt{B},
-	\item импульсы тактовой частоты \texttt{CLK}.
+	\item импульсы тактовой частоты \texttt{Q}.
 \end{itemize}
  
 Корректной работе автомата соответствуют значения на выходах, приведенные в таблице \ref{table:oa11test}.
@@ -152,13 +169,14 @@
 	\begin{tabular}{|l|*{8}{c|}{r|}} \hline
 		A(t) & B(t) & A(t+1) & FS & FZ & FC1 & FP & FC \\ \hline
 		1010 & 0111 & 0010   & 0  & 0  & 0   & 0   & 0 \\ \hline
-		0000 & 1001 & 0000   & 0  & 1  & 0   & 1   & 0 \\ \hline
-		1111 & 0110 & 0110   & 0  & 0  & 0   & 1   & 0 \\ \hline
+		0010 & 1001 & 0000   & 0  & 1  & 0   & 1   & 0 \\ \hline
+		1111 & 1001 & 1001   & 1  & 0  & 0   & 1   & 0 \\ \hline
+		1001 & 0110 & 0000   & 0  & 1  & 0   & 1   & 0 \\ \hline
 	\end{tabular}
 \end{table}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/test11.png}
+	\includegraphics[scale=0.6]{images/altera/rev2/test11.png}
 	\caption{Временная диаграмма результатов моделирования операции $A \leftarrow A \& B$}
 	\label{figure:oa11test}
 \end{figure}
@@ -174,10 +192,10 @@
 \begin{itemize}
 	\item объединенные функции возбуждения fs, fz, fc, fp, fc1,
 	\item управляющий сигнал Y,
-	\item импульсы тактовой частоты CLK.
+	\item импульсы тактовой частоты Q.
 \end{itemize} 
 
-На выходах ОА$_2$ по положительному фронта синхроимпульса \texttt{CLK} записываются значения признаков S, Z, C1, P, C.
+На выходах ОА$_2$ по положительному фронта синхроимпульса \texttt{Q} записываются значения признаков S, Z, C1, P, C.
 
 \begin{figure}[H]
 	\begin{subfigure}[b]{0.6\textwidth}
@@ -201,13 +219,13 @@
 На рисунках \ref{figure:oafin0test}, \ref{figure:oafin1test} приведены временные диаграммы (для y=0 и y=1 соответственно), иллюстрирующие работу автомата, состоящего из ОА$_1$ и ОА$_2$.
 
 \begin{figure}[H]
-	\includegraphics[scale=0.5]{images/altera/test_fin0.png}
+	\includegraphics[scale=0.5]{images/altera/rev2/final_test_log.png}
 	\caption{Временная диаграмма результатов моделирования ОА для y = 0}
 	\label{figure:oafin0test}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.5]{images/altera/test_fin1.png}
+	\includegraphics[scale=0.5]{images/altera/rev2/final_test_ar.png}
 	\caption{Временная диаграмма результатов моделирования ОА для y = 1}
 	\label{figure:oafin1test}
 \end{figure}

@@ -140,7 +140,7 @@ $A$ --- слово, характеризующее состояние автом
 		& $J^{(0)}_{1}$ & $K^{(0)}_{1}$ & $J^{(0)}_{0}$ & $K^{(0)}_{0}$
 		& $f^{(0)}_{S}$ & $f^{(0)}_{Z}$ & $f^{(0)}_{C'}$ & $f^{(0)}_{P}$ & $f^{(0)}_{C}$ \\ \hline
 
-0 & 	0 & 0 & 1 & 1 & 	1 & 1 & 0 & 0 & 	1 & x & 1 & x & x & 1 & x & 1 & 	1 & 0 & 0 & 1 & 0 \\ \hline
+0 & 	0 & 0 & 1 & 1 & 	1 & 1 & 0 & 0 & 	1 & x & 1 & x & x & 1 & x & 1 & 	1 & 0 & 0 & 1 & 1 \\ \hline
 1 & 	1 & 1 & 0 & 0 & 	1 & 0 & 1 & 1 & 	x & 0 & x & 1 & 1 & x & 1 & x & 	1 & 0 & 1 & 0 & 0 \\ \hline
 2 & 	1 & 0 & 1 & 1 & 	1 & 0 & 1 & 0 & 	x & 0 & 0 & x & x & 0 & x & 1 & 	1 & 0 & 0 & 1 & 0 \\ \hline
 3 & 	1 & 0 & 1 & 0 & 	1 & 0 & 0 & 1 & 	x & 0 & 0 & x & x & 1 & 1 & x & 	1 & 0 & 0 & 1 & 0 \\ \hline
@@ -163,8 +163,8 @@ $A$ --- слово, характеризующее состояние автом
 	\item $f_S$ --- фиксирует знаковый бит результата,
 	\item $f_Z$ --- фиксирует нулевой результат,
 	\item $f_P$ --- фиксирует четное число единиц результата,
-	\item $f_C$ --- фиксирует перенос (заем) из старшего бита результата,
-	\item $f_{C'}$---  фиксирует вспомогательный перенос (заем) из бита $а_2$ результата.
+	\item $f_C$ --- фиксирует заем из старшего бита результата,
+	\item $f_{C'}$---  фиксирует заем из бита $a_2$ результата.
 \end{itemize}
 
 \begin{table}[H]
@@ -217,7 +217,7 @@ f^{(0)}_{C'} = \oline{a_1} \cdot \oline{a_0}
 \\
 f^{(0)}_{P} = a_1 \vee \oline{a_3} \cdot \oline{a_0}
 \\
-f^{(0)}_{C} = 0
+f^{(0)}_{C} = \oline{a_3} \cdot \oline{a_2}
 \end{cases}
 $ (3)
 
@@ -303,15 +303,15 @@ K^1_3 = f(a_3, b_3) = a_3 \cdot \oline{b_3}
 \\
 J^1_2 = f(a_2, b_2) = 0
 \\
-K^1_2 = f(a_2, b_2) = a_3 \cdot \oline{b_2}
+K^1_2 = f(a_2, b_2) = a_2 \cdot \oline{b_2}
 \\
 J^1_1 = f(a_1, b_1) = 0
 \\
-K^1_1 = f(a_1, b_1) = a_3 \cdot \oline{b_1}
+K^1_1 = f(a_1, b_1) = a_1 \cdot \oline{b_1}
 \\
 J^1_0 = f(a_0, b_0) = 0
 \\
-K^1_0 = f(a_0, b_0) = a_3 \cdot \oline{b_0}
+K^1_0 = f(a_0, b_0) = a_0 \cdot \oline{b_0}
 \end{cases}
 $ (4)
 
@@ -379,35 +379,35 @@ $ (7)
 
 $
 \begin{cases}
-J_3 = y_0 J^0_3 \cup y_1 J^1_3 = y_0 (\oline{a_2}) \vee y_1(0)
+J_3 = y_0 J^0_3 \cup y_1 J^1_3 = y_0 \cdot \oline{a_2} \vee y_1 \cdot 0
 \\
-K_3 = y_0 K^0_3 \cup y_1 K^1_3 = y_0 (\oline{a_2} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1(\oline{b_3})
+K_3 = y_0 K^0_3 \cup y_1 K^1_3 = y_0 \cdot (\oline{a_2} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1 \cdot \oline{b_3}
 \\
-J_2 = y_0 J^0_2 \cup y_1 J^1_2 = y_0 (\oline{a_3} \vee \oline{a_1} \cdot \oline{a_0}) \vee y_1(0)
+J_2 = y_0 J^0_2 \cup y_1 J^1_2 = y_0 \cdot (\oline{a_3} \vee \oline{a_1} \cdot \oline{a_0}) \vee y_1 \cdot 0
 \\
-K_2 = y_0 K^0_2 \cup y_1 K^1_2 = y_0 (\oline{a_1} \cdot \oline{a_0}) \vee y_1(\oline{b_2})
+K_2 = y_0 K^0_2 \cup y_1 K^1_2 = y_0 \cdot (\oline{a_1} \cdot \oline{a_0}) \vee y_1 \cdot \oline{b_2}
 \\
-J_1 = y_0 J^0_1 \cup y_1 J^1_1 = y_0 (\oline{a_0}) \vee y_1(0)
+J_1 = y_0 J^0_1 \cup y_1 J^1_1 = y_0 \cdot \oline{a_0} \vee y_1 \cdot 0
 \\
-K_1 = y_0 K^0_1 \cup y_1 K^1_1 = y_0 (\oline{a_0} \vee \oline{a_3} \cdot \oline{a_2}) \vee y_1(\oline{b_1})
+K_1 = y_0 K^0_1 \cup y_1 K^1_1 = y_0 \cdot (\oline{a_0} \vee \oline{a_3} \cdot \oline{a_2}) \vee y_1 \cdot \oline{b_1}
 \\
-J_0 = y_0 J^0_0 \cup y_1 J^1_0 = y_0 (1) \vee y_1(0)
+J_0 = y_0 J^0_0 \cup y_1 J^1_0 = y_0 \cdot 1 \vee y_1 \cdot 0
 \\
-K_0 = y_0 K^0_0 \cup y_1 K^1_0 = y_0 (1) \vee y_1(\oline{b_0})
+K_0 = y_0 K^0_0 \cup y_1 K^1_0 = y_0 \cdot 1 \vee y_1 \cdot \oline{b_0}
 \end{cases}
 $ (8)
 
 $
 \begin{cases}
-f_S = y_0 f^0_S \cup y_1 f^1_S = y_0 (a_3 \cdot a_2 \vee \oline{a_2} \cdot a_1 \vee a_3 \cdot a_0) \vee y_1 (r_3)
+f_S = y_0 f^0_S \cup y_1 f^1_S = y_0 \cdot (a_3 \cdot a_2 \vee \oline{a_2} \cdot a_1 \vee a_3 \cdot a_0) \vee y_1 \cdot r_3
 \\
-f_Z = y_0 f^0_Z \cup y_1 f^1_Z = y_0 (\oline{a_3} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1 (\oline{r_3} \cdot \oline{r_2} \cdot \oline{r_1} \cdot \oline{r_0})
+f_Z = y_0 f^0_Z \cup y_1 f^1_Z = y_0 \cdot (\oline{a_3} \cdot \oline{a_1} \cdot \oline{a_0}) \vee y_1 \cdot (\oline{r_3} \cdot \oline{r_2} \cdot \oline{r_1} \cdot \oline{r_0})
 \\
-f_{C'} = y_0 f^0_{C'} \cup y_1 f^1_{C'} = y_0 (\oline{a_1} \cdot \oline{a_0}) \vee y_1 (0)
+f_{C'} = y_0 f^0_{C'} \cup y_1 f^1_{C'} = y_0 \cdot (\oline{a_1} \cdot \oline{a_0}) \vee y_1 \cdot 0
 \\
-f_P = y_0 f^0_P \cup y_1 f^1_P = y_0 (a_1 \vee \oline{a_3} \cdot \oline{a_0}) \vee y_1 (\oline{r_3 \oplus r_2 \oplus r_1 \oplus r_0})
+f_P = y_0 f^0_P \cup y_1 f^1_P = y_0 \cdot (a_1 \vee \oline{a_3} \cdot \oline{a_0}) \vee y_1 \cdot (\oline{r_3 \oplus r_2 \oplus r_1 \oplus r_0})
 \\
-f_C = y_0 f^0_C \cup y_1 f^1_C = y_0 (0) \vee y_1 (0)
+f_C = y_0 f^0_C \cup y_1 f^1_C = y_0 \cdot (\oline{a_3} \cdot \oline{a_2}) \vee y_1 \cdot 0
 \end{cases}
 $ (9)
 
