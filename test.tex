@@ -64,6 +64,10 @@
 
 Схема построена в соответствии с объединёнными функциями возбуждения для каждого признака, полученными в пункте 3.2.
 
+Для проверки сохранения значения признака \texttt{C} в соответствии с заданием (Таблица \ref{table:task}) реализован сигнал \texttt{PRNC} принудительной установки признака \texttt{С}. При \texttt{PRNC = 1} автомат устанавливает признак \texttt{C}.
+
+При выполнени логической операции (по сигналу \texttt{Y0}) в соответствии с заданием (Таблица \ref{table:task}) автомат должен устанавливать значения признаков C и C' (на схеме признак С' обозначен как С1) равными нулю. Для этого использован сигнал '0'.
+
 Входными сигналами для ОА${}_2$ являются:
 \begin{itemize}
 	\item осведомительные сигналы \texttt{FS}, \texttt{FZ}, \texttt{FC1}, \texttt{FP}, \texttt{FC},
@@ -74,7 +78,7 @@
 Выходными сигналами для ОА${}_2$ являются флаги \texttt{S}, \texttt{Z}, \texttt{C1}, \texttt{P}, \texttt{C}.
 
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/rev2/oa2_WITH_CONTROL_SIGNAL.png}
+	\includegraphics[scale=0.6]{images/altera/rev2/OA2_PRNC/OA2_PRNC_WIDE.png}
 	\caption{Cхема ОА$_{2}$}
 	\label{figure:oa2log}
 \end{figure}
@@ -190,33 +194,34 @@
 
 На триггеры Ds, Dz, Dc1, Dp, Dc подаются:
 \begin{itemize}
-	\item объединенные функции возбуждения fs, fz, fc, fp, fc1,
-	\item управляющий сигнал Y,
-	\item импульсы тактовой частоты Q.
+	\item объединенные функции возбуждения \texttt{FZ}, \texttt{FS}, \texttt{FP}, \texttt{FC1}, \texttt{FC},
+	\item управляющий сигнал \texttt{Y},
+	\item импульсы тактовой частоты \texttt{Q},
+	\item сигнал \texttt{PRNC} принудительной установки признака \texttt{С}.
 \end{itemize} 
 
-На выходах ОА$_2$ по положительному фронта синхроимпульса \texttt{Q} записываются значения признаков S, Z, C1, P, C.
+На выходах ОА$_2$ по положительному фронта синхроимпульса \texttt{Q} записываются значения признаков S, Z, C1, P, C в соответствии со значениями ЛФП из таблиц 2, 5.
 
 \begin{figure}[H]
 	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[scale=0.6]{images/altera/test2_WITH_CONTROL_SIGNAL_Y=0.png}
+		\includegraphics[scale=0.6]{images/altera/rev2/OA2_PRNC/test2_WITH_CONTROL_SIGNAL_Y=0.png}
 		\caption{}
 	\end{subfigure}
 
-	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[scale=0.6]{images/altera/test2_WITH_CONTROL_SIGNAL_Y=1.png}
+	\begin{subfigure}[b]{1\textwidth}
+		\includegraphics[scale=0.6]{images/altera/rev2/OA2_PRNC/test2_WITH_CONTROL_SIGNAL_Y=1.png}
 		\caption{}
 	\end{subfigure}
 	\caption{Временные диаграммы результатов моделирования ОА$_2$}
 	\label{figure:oa2test}
 \end{figure}
 
-Из диаграмм (Рисунок \ref{figure:oa2test}) видно, что схема работает корректно.
+Из диаграмм (Рисунок \ref{figure:oa2test}) видно, что схема работает корректно. Значение признака \texttt{C} при выполнении арифметической (Y = 1) операции ОА сохраняет.
 
 \clearpage
 \subsection{Моделирование ОА}
 
-На рисунках \ref{figure:oafin0test}, \ref{figure:oafin1test} приведены временные диаграммы (для y=0 и y=1 соответственно), иллюстрирующие работу автомата, состоящего из ОА$_1$ и ОА$_2$.
+На рисунках \ref{figure:oafin0test}, \ref{figure:oafin1test} приведены временные диаграммы выполнения логической (для Y = 0) и арифметической (для Y = 1) операций, иллюстрирующие работу автомата, состоящего из ОА$_1$ и ОА$_2$.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{images/altera/rev2/final_test_log.png}
@@ -230,4 +235,6 @@
 	\label{figure:oafin1test}
 \end{figure}
 
-Из временных диаграмм видно, что результаты выполнения операций и признаки, совпадают со значениями из таблиц 2 и 5. То есть, автомат функционирует в соответствии с заданием.
+Из временных диаграмм видно, что результаты выполнения операций и признаки, совпадают со значениями из таблиц 2 и 5. Признак \texttt{C}, в соответствии с заданием (Таблица \ref{table:task}), при выполнении арифметической операции ОА не устанавливает.
+
+То есть, автомат функционирует в соответствии с заданием.
