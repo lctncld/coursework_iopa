@@ -32,7 +32,7 @@
 
 Для выполнения различных операций используется одна и та же память, то есть одни и те же триггеры, возбуждаемые различными функциями. Поэтому схемы формирования функций возбуждения и ЛФП представлены в виде отдельных символов oa10\textunderscore logic и oa11\textunderscore logic для ОА$^{(0)}_{1}$ и ОА$^{(1)}_{1}$ соответственно.
 
-Так как используются две схемы формирования функций возбуждения и ЛФП, то реализована схема, позволяющая подключить выходы одной из них к входам триггеров и ЛФП в зависимости от кода операции \texttt{Y}.
+Так как используются две схемы формирования функций возбуждения и ЛФП, то реализована схема, позволяющая подключить выходы одной из них к входам триггеров в зависимости от кода операции \texttt{Y}.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.6]{images/altera/rev2/oa1_1_WITH_CONTROL_SIGNAL.png}
@@ -173,14 +173,13 @@
 	\begin{tabular}{|l|*{8}{c|}{r|}} \hline
 		A(t) & B(t) & A(t+1) & FS & FZ & FC1 & FP & FC \\ \hline
 		1010 & 0111 & 0010   & 0  & 0  & 0   & 0   & 0 \\ \hline
-		0010 & 1001 & 0000   & 0  & 1  & 0   & 1   & 0 \\ \hline
 		1111 & 1001 & 1001   & 1  & 0  & 0   & 1   & 0 \\ \hline
 		1001 & 0110 & 0000   & 0  & 1  & 0   & 1   & 0 \\ \hline
 	\end{tabular}
 \end{table}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{images/altera/rev2/test11.png}
+	\includegraphics[scale=0.6]{images/ff/11.png}
 	\caption{Временная диаграмма результатов моделирования операции $A \leftarrow A \& B$}
 	\label{figure:oa11test}
 \end{figure}
@@ -203,20 +202,12 @@
 На выходах ОА$_2$ по положительному фронта синхроимпульса \texttt{Q} записываются значения признаков S, Z, C1, P, C в соответствии со значениями ЛФП из таблиц 2, 5.
 
 \begin{figure}[H]
-	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[scale=0.6]{images/altera/rev2/OA2_PRNC/test2_WITH_CONTROL_SIGNAL_Y=0.png}
-		\caption{}
-	\end{subfigure}
-
-	\begin{subfigure}[b]{1\textwidth}
-		\includegraphics[scale=0.6]{images/altera/rev2/OA2_PRNC/test2_WITH_CONTROL_SIGNAL_Y=1.png}
-		\caption{}
-	\end{subfigure}
-	\caption{Временные диаграммы результатов моделирования ОА$_2$}
+	\includegraphics[scale=0.6]{images/ff/2.png}
+	\caption{Временная диаграмма результатов моделирования ОА$_2$}
 	\label{figure:oa2test}
 \end{figure}
 
-Из диаграмм (Рисунок \ref{figure:oa2test}) видно, что схема работает корректно. Значение признака \texttt{C} при выполнении арифметической (Y = 1) операции ОА сохраняет.
+Из диаграммы (Рисунок \ref{figure:oa2test}) видно, что схема работает корректно. Значение признака \texttt{C} при выполнении арифметической (Y = 1) операции ОА сохраняет.
 
 \clearpage
 \subsection{Моделирование ОА}
@@ -224,13 +215,13 @@
 На рисунке \ref{figure:oafin0test} приведена временная диаграмма выполнения логической (для Y = 0) и арифметической (для Y = 1) операций, иллюстрирующая работу автомата, состоящего из ОА$_1$ и ОА$_2$.
 
 \begin{figure}[H]
-	\begin{subfigure}[b]{0.95\textwidth}
-		\includegraphics[scale=0.5]{images/altera/rev3/00.png}
+	\begin{subfigure}[b]{1\textwidth}
+		\includegraphics[scale=0.5]{images/ff/001.png}
 		\caption{}
 	\end{subfigure}
 	
 	\begin{subfigure}[b]{1\textwidth}
-		\includegraphics[scale=0.5]{images/altera/rev3/01.png}
+		\includegraphics[scale=0.5]{images/ff/002.png}
 		\caption{}
 	\end{subfigure}
 	\caption{Временная диаграмма результатов моделирования ОА}
